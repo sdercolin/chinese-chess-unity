@@ -32,6 +32,22 @@ public class MainBehavior : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetMouseButtonDown(0))
+        {
+            GameObject clickedGameObject = null;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit2D hit2d = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction);
+            if (hit2d)
+            {
+                clickedGameObject = hit2d.transform.gameObject;
+            }
+            var component = clickedGameObject.GetComponent("PieceBehavior") as PieceBehavior;
+            Debug.Log(component.Piece.Type);
+        }
+    }
+
+    void OnClickPiece(GameObject pieceObject)
+    {
 
     }
 
@@ -130,12 +146,15 @@ public class MainBehavior : MonoBehaviour
             rotation = 180f;
         }
         var position = piece.Position;
-        return Instantiate(
+        var pieceObject = Instantiate(
             prefab,
             new Vector3((float)(-4 + position.X), (float)(4.43 - position.Y), Z_PIECES),
             Quaternion.Euler(0f, 0f, rotation)
         );
+        var component = pieceObject.GetComponent("PieceBehavior") as PieceBehavior;
+        component.Piece = piece;
+        return pieceObject;
     }
 
-    const int Z_PIECES = -10;
+    const int Z_PIECES = -5;
 }

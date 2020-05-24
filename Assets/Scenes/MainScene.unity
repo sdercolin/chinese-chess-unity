@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 63412371}
   m_Layer: 5
   m_Name: Canvas
-  m_TagString: Untagged
+  m_TagString: Canvas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -198,7 +198,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -90
   m_TargetDisplay: 0
 --- !u!224 &63412374
 RectTransform:
@@ -298,7 +298,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -100}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -329,8 +329,8 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1125618975}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 63412374}
@@ -403,7 +403,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1690622022}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1}
+  m_LocalPosition: {x: 0, y: 0, z: 5}
   m_LocalScale: {x: 72, y: 72, z: 72}
   m_Children: []
   m_Father: {fileID: 63412374}
@@ -493,6 +493,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c6cbd042098c4c699d859ebe315e708, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RedGeneralPrefab: {fileID: 7974951836067190905, guid: c6190dee42b864847bf52a90378d87bb,
+    type: 3}
+  RedAdvisorPrefab: {fileID: 5931519224440961227, guid: a120fd2d2014f4c159075e8b538e7d46,
+    type: 3}
+  RedElephantPrefab: {fileID: 6308342570456749811, guid: ac061015884e24316b68dbeca66a0199,
+    type: 3}
+  RedChariotPrefab: {fileID: 5270682288453950734, guid: a19a65c57e9a648c58c3c619eb2b258a,
+    type: 3}
+  RedHorsePrefab: {fileID: 1805351414911036616, guid: dbd0bb4bde55344569cdad9adf16fb98,
+    type: 3}
+  RedCannonPrefab: {fileID: 4625577263175704887, guid: c20326ddc154b402fa6941cb16ccab25,
+    type: 3}
+  RedSoldierPrefab: {fileID: 2512413143540163174, guid: e041b9599d9644b7f8c444fe61b2b0bd,
+    type: 3}
+  BlackGeneralPrefab: {fileID: 3319626552923119165, guid: 0a4f87a0ece494feebec7f33701ddfbd,
+    type: 3}
+  BlackAdvisorPrefab: {fileID: 6118963847826944569, guid: 50ccaea27d7c54db5bdd21be1ccf3abc,
+    type: 3}
+  BlackElephantPrefab: {fileID: 353347008089799112, guid: 8d3764f829dd84683bb68b2d5460e2f1,
+    type: 3}
+  BlackChariotPrefab: {fileID: 7537997630718044478, guid: 6b5da6f5d3466402aba75f24d13e9cb6,
+    type: 3}
+  BlackHorsePrefab: {fileID: 3804584620768615428, guid: 5107dbdf6448141c8b65d91cb534eb8c,
+    type: 3}
+  BlackCannonPrefab: {fileID: 263079721915059381, guid: 622471d53a95c48a88037979ea05b0e9,
+    type: 3}
+  BlackSoldierPrefab: {fileID: 5982073378342974506, guid: 48811a4ccbc404ef8ae87abfab9f3bd6,
+    type: 3}
 --- !u!4 &1939889128
 Transform:
   m_ObjectHideFlags: 0
