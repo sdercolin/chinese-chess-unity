@@ -41,8 +41,8 @@ public class MainBehavior : MonoBehaviour
             {
                 clickedGameObject = hit2d.transform.gameObject;
             }
-            var component = clickedGameObject.GetComponent("PieceBehavior") as PieceBehavior;
-            Debug.Log(component.Piece.Type);
+            var piece = clickedGameObject.GetPieceBehavior()?.Piece;
+            Debug.Log(piece?.Type);
         }
     }
 
@@ -151,8 +151,7 @@ public class MainBehavior : MonoBehaviour
             new Vector3((float)(-4 + position.X), (float)(4.43 - position.Y), Z_PIECES),
             Quaternion.Euler(0f, 0f, rotation)
         );
-        var component = pieceObject.GetComponent("PieceBehavior") as PieceBehavior;
-        component.Piece = piece;
+        pieceObject.GetPieceBehavior().Piece = piece;
         return pieceObject;
     }
 
