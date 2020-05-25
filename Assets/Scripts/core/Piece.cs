@@ -36,6 +36,11 @@ namespace Core
             }
             return piece.Color == Color;
         }
+
+        public void MoveTo(Position position)
+        {
+            Position = position;
+        }
     }
 
     public class General : Piece

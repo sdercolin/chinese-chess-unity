@@ -35,6 +35,16 @@ namespace Core
             Pieces.AddRange(initialPieces);
         }
 
+        public void Move(Piece piece, Position targetPosition)
+        {
+            var takenPiece = GetPieceAt(targetPosition);
+            if (takenPiece != null)
+            {
+                Pieces.Remove(takenPiece);
+            }
+            piece.MoveTo(targetPosition);
+        }
+
         public Piece GetPieceAt(Position position)
         {
             return Pieces.Find(piece => piece.Position.Equals(position));

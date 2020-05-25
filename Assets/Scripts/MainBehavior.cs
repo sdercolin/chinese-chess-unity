@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class MainBehavior : MonoBehaviour
 {
-    Game Game = new Game();
-
     public GameObject RedGeneralPrefab;
     public GameObject RedAdvisorPrefab;
     public GameObject RedElephantPrefab;
@@ -22,11 +20,21 @@ public class MainBehavior : MonoBehaviour
     public GameObject BlackCannonPrefab;
     public GameObject BlackSoldierPrefab;
 
+    Game game = new Game();
+
+    public GameObject TargetPointPrefab;
+
     List<GameObject> pieceObjects = new List<GameObject>();
+
+    GameObject clickedPieceObject = null;
+
+    List<Position> availableTargetPoints = new List<Position>();
+
+    List<GameObject> targetPointObjects = new List<GameObject>();
 
     void Start()
     {
-        Game.Reset();
+        game.Reset();
         UpdatePieces();
     }
 
@@ -34,28 +42,65 @@ public class MainBehavior : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            GameObject clickedGameObject = null;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit2D hit2d = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction);
             if (hit2d)
             {
-                clickedGameObject = hit2d.transform.gameObject;
+                OnClickObject(hit2d.transform.gameObject);
             }
-            var piece = clickedGameObject.GetPieceBehavior()?.Piece;
-            Debug.Log(piece?.Type);
+            else
+            {
+                OnClickNothing();
+            }
         }
     }
 
-    void OnClickPiece(GameObject pieceObject)
+    void OnClickObject(GameObject gameObject)
     {
+        
+        if (clickedPieceObject == null)
+        {
+            var piece = gameObject.GetPieceBehavior()?.Piece;
+            if (piece != null)
+            {
+                Debug.Log(string.Format("Clicked piece at ({0},{1}).", piece.Position.X, piece.Position.Y));
+                availableTargetPoints = piece.GetMovablePositions(game);
+                if (availableTargetPoints.Count > 0)
+                {
+                    clickedPieceObject = gameObject;
+                    UpdateTargetPoints();
+                }
+                return;
+            }
+        }
+        else
+        {
+            var targetPosition = gameObject.GetTargetPointBehavior()?.Position;
+            if (targetPosition != null)
+            {
+                var position = (Position)targetPosition;
+                Debug.Log(string.Format("Clicked target point at ({0},{1}).", position.X, position.Y));
+                game.Move(clickedPieceObject.GetPieceBehavior().Piece, position);
+                UpdatePieces();
+                return;
+            }
+        }
+        OnClickNothing();
+    }
 
+    void OnClickNothing()
+    {
+        clickedPieceObject = null;
+        availableTargetPoints.Clear();
+        UpdateTargetPoints();
+        Debug.Log("Clicked nothing.");
     }
 
     void UpdatePieces()
     {
         pieceObjects.ForEach(x => Destroy(x));
         pieceObjects.Clear();
-        foreach (var piece in Game.Pieces)
+        foreach (var piece in game.Pieces)
         {
             GameObject prefab;
             switch (piece.Type)
@@ -136,6 +181,20 @@ public class MainBehavior : MonoBehaviour
             var pieceObject = createPiece(prefab, piece);
             pieceObjects.Add(pieceObject);
         }
+        clickedPieceObject = null;
+        availableTargetPoints.Clear();
+        UpdateTargetPoints();
+    }
+
+    void UpdateTargetPoints()
+    {
+        targetPointObjects.ForEach(x => Destroy(x));
+        targetPointObjects.Clear();
+        foreach (var point in availableTargetPoints)
+        {
+            targetPointObjects.Add(createTargetPoint(point));
+            Debug.Log(string.Format("Created target point at ({0},{1}).", point.X, point.Y));
+        }
     }
 
     GameObject createPiece(GameObject prefab, Piece piece)
@@ -145,15 +204,31 @@ public class MainBehavior : MonoBehaviour
         {
             rotation = 180f;
         }
-        var position = piece.Position;
         var pieceObject = Instantiate(
             prefab,
-            new Vector3((float)(-4 + position.X), (float)(4.43 - position.Y), Z_PIECES),
+            ConvertPosition(piece.Position, Z_PIECES),
             Quaternion.Euler(0f, 0f, rotation)
         );
         pieceObject.GetPieceBehavior().Piece = piece;
         return pieceObject;
     }
 
+    GameObject createTargetPoint(Position position)
+    {
+        var targetPointObject = Instantiate(
+            TargetPointPrefab,
+            ConvertPosition(position, Z_TARGET_POINTS),
+            Quaternion.identity
+        );
+        targetPointObject.GetTargetPointBehavior().Position = position;
+        return targetPointObject;
+    }
+
+    Vector3 ConvertPosition(Position position, int z)
+    {
+        return new Vector3((float)(4 - position.X), (float)(-4.53 + position.Y), z);
+    }
+
     const int Z_PIECES = -5;
+    const int Z_TARGET_POINTS = -6;
 }
