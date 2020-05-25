@@ -53,10 +53,17 @@ namespace Core
 
         internal override List<Position> GetMovablePositions(Game game)
         {
-            return Position.Palaces[Color]
+            var list = new List<Position>();
+            list.AddRange(Position.Palaces[Color]
                 .Where(pos => Position.Distance(pos, Position) == 1)
                 .Where(pos => !IsSameColor(game.GetPieceAt(pos)))
-                .ToList();
+            );
+            list.AddRange(
+                new List<Position> { game.Pieces.First(piece => piece is General && piece != this).Position }
+                    .Where(pos => Position.X == pos.X)
+                    .Where(pos => Position.Route(pos, Position).All(routePos => game.GetPieceAt(routePos) == null))
+            );
+            return list;
         }
     }
 
@@ -177,14 +184,12 @@ namespace Core
                     .Where(pos => pos.X == Position.X || pos.Y == Position.Y)
                     .Where(pos => Position.Route(Position, pos).All(routePos => game.GetPieceAt(routePos) == null))
                     .Where(pos => game.GetPieceAt(pos) == null)
-                    .ToList()
             );
             list.AddRange(
                 Position.Whole
                     .Where(pos => pos.X == Position.X || pos.Y == Position.Y)
                     .Where(pos => game.GetPieceAt(pos) != null && !IsSameColor(game.GetPieceAt(pos)))
                     .Where(pos => Position.Route(Position, pos).Count(routePos => game.GetPieceAt(routePos) != null) == 1)
-                    .ToList()
             );
             return list;
         }
