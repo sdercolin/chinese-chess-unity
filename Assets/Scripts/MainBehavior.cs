@@ -35,14 +35,19 @@ public class MainBehavior : MonoBehaviour
 
     List<GameObject> targetPointObjects = new List<GameObject>();
 
+    public GameObject ResultCanvas;
+
     void Start()
     {
-        game.Reset();
-        UpdatePieces();
+        Reset();
     }
 
     void Update()
     {
+        if (game.WinnerColor != null)
+        {
+            return;
+        }
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -56,6 +61,13 @@ public class MainBehavior : MonoBehaviour
                 OnClickNothing();
             }
         }
+    }
+
+    public void Reset()
+    {
+        Debug.Log("Reset");
+        game.Reset();
+        UpdatePieces();
     }
 
     void OnClickObject(GameObject gameObject)
@@ -187,6 +199,7 @@ public class MainBehavior : MonoBehaviour
         clickedPieceObject = null;
         availableTargetPoints.Clear();
         UpdateTargetPoints();
+        UpdateGameResult();
     }
 
     void UpdateTargetPoints()
@@ -204,6 +217,20 @@ public class MainBehavior : MonoBehaviour
     {
         CurrentColorRed.SetActive(game.CurrentColor == Core.Color.Red);
         CurrentColorBlack.SetActive(game.CurrentColor == Core.Color.Black);
+    }
+
+    void UpdateGameResult()
+    {
+        var winnerColor = game.WinnerColor;
+        if (winnerColor == null)
+        {
+            ResultCanvas.SetActive(false);
+        }
+        else
+        {
+            ResultCanvas.SetActive(true);
+            ResultCanvas.GetResultBehavior().SetWinnerColor((Core.Color)winnerColor);
+        }
     }
 
     GameObject createPiece(GameObject prefab, Piece piece)

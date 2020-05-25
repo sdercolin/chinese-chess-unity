@@ -9,6 +9,8 @@ namespace Core
 
         public Color CurrentColor { get; private set; } = Color.Red;
 
+        public Color? WinnerColor { get; private set; } = null;
+
         public void Reset()
         {
             Pieces.Clear();
@@ -35,6 +37,8 @@ namespace Core
                         }
                     );
             Pieces.AddRange(initialPieces);
+            CurrentColor = Color.Red;
+            WinnerColor = null;
         }
 
         public List<Position> GetTargetPositions(Piece piece)
@@ -52,9 +56,16 @@ namespace Core
             if (takenPiece != null)
             {
                 Pieces.Remove(takenPiece);
+                if (takenPiece is General)
+                {
+                    WinnerColor = GetAnotherColor(takenPiece.Color);
+                }
             }
             piece.MoveTo(targetPosition);
-            SwitchColor();
+            if (WinnerColor == null)
+            {
+                SwitchColor();
+            }
         }
 
         public Piece GetPieceAt(Position position)
@@ -64,13 +75,18 @@ namespace Core
 
         void SwitchColor()
         {
-            if (CurrentColor == Color.Red)
+            CurrentColor = GetAnotherColor(CurrentColor);
+        }
+
+        static Color GetAnotherColor(Color color)
+        {
+            if (color == Color.Red)
             {
-                CurrentColor = Color.Black;
+                return Color.Black;
             }
             else
             {
-                CurrentColor = Color.Red;
+                return Color.Red;
             }
         }
     }

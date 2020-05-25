@@ -11,4 +11,9 @@ public static class Extensions
     {
         return gameObject?.GetComponent("TargetPointBehavior") as TargetPointBehavior;
     }
+
+    public static ResultBehavior GetResultBehavior(this GameObject gameObject)
+    {
+        return gameObject?.GetComponent("ResultBehavior") as ResultBehavior;
+    }
 }
