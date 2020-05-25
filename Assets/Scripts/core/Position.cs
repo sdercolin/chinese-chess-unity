@@ -16,7 +16,7 @@ namespace Core
 
         public Position(Color color, int relativeX, int relativeY)
         {
-            if (color == Color.Black)
+            if (color == Color.Red)
             {
                 X = relativeX;
                 Y = relativeY;
@@ -83,9 +83,9 @@ namespace Core
         static List<Position> CreateWholeTable()
         {
             var list = new List<Position>();
-            for (int x = 0; x < Position.MAX_X; x++)
+            for (int x = 0; x <= Position.MAX_X; x++)
             {
-                for (int y = 0; y < Position.MAX_Y; y++)
+                for (int y = 0; y <= Position.MAX_Y; y++)
                 {
                     list.Add(new Position(x, y));
                 }
@@ -101,7 +101,7 @@ namespace Core
             foreach (var color in new Color[] { Color.Red, Color.Black })
             {
                 var list = new List<Position>();
-                for (int x = 0; x < MAX_X; x++)
+                for (int x = 0; x <= MAX_X; x++)
                 {
                     for (int y = 0; y < 5; y++)
                     {
