@@ -20,6 +20,9 @@ public class MainBehavior : MonoBehaviour
     public GameObject BlackCannonPrefab;
     public GameObject BlackSoldierPrefab;
 
+    public GameObject CurrentColorRed;
+    public GameObject CurrentColorBlack;
+
     Game game = new Game();
 
     public GameObject TargetPointPrefab;
@@ -57,14 +60,13 @@ public class MainBehavior : MonoBehaviour
 
     void OnClickObject(GameObject gameObject)
     {
-        
         if (clickedPieceObject == null)
         {
             var piece = gameObject.GetPieceBehavior()?.Piece;
             if (piece != null)
             {
                 Debug.Log(string.Format("Clicked piece at ({0},{1}).", piece.Position.X, piece.Position.Y));
-                availableTargetPoints = piece.GetMovablePositions(game);
+                availableTargetPoints = game.GetTargetPositions(piece);
                 if (availableTargetPoints.Count > 0)
                 {
                     clickedPieceObject = gameObject;
@@ -181,6 +183,7 @@ public class MainBehavior : MonoBehaviour
             var pieceObject = createPiece(prefab, piece);
             pieceObjects.Add(pieceObject);
         }
+        UpdateCurrentColor();
         clickedPieceObject = null;
         availableTargetPoints.Clear();
         UpdateTargetPoints();
@@ -195,6 +198,12 @@ public class MainBehavior : MonoBehaviour
             targetPointObjects.Add(createTargetPoint(point));
             Debug.Log(string.Format("Created target point at ({0},{1}).", point.X, point.Y));
         }
+    }
+
+    void UpdateCurrentColor()
+    {
+        CurrentColorRed.SetActive(game.CurrentColor == Core.Color.Red);
+        CurrentColorBlack.SetActive(game.CurrentColor == Core.Color.Black);
     }
 
     GameObject createPiece(GameObject prefab, Piece piece)

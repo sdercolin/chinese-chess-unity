@@ -7,6 +7,8 @@ namespace Core
     {
         public readonly List<Piece> Pieces = new List<Piece>();
 
+        public Color CurrentColor { get; private set; } = Color.Red;
+
         public void Reset()
         {
             Pieces.Clear();
@@ -35,6 +37,15 @@ namespace Core
             Pieces.AddRange(initialPieces);
         }
 
+        public List<Position> GetTargetPositions(Piece piece)
+        {
+            if (piece.Color != CurrentColor)
+            {
+                return new List<Position>();
+            }
+            return piece.GetMovablePositions(this);
+        }
+
         public void Move(Piece piece, Position targetPosition)
         {
             var takenPiece = GetPieceAt(targetPosition);
@@ -43,11 +54,24 @@ namespace Core
                 Pieces.Remove(takenPiece);
             }
             piece.MoveTo(targetPosition);
+            SwitchColor();
         }
 
         public Piece GetPieceAt(Position position)
         {
             return Pieces.Find(piece => piece.Position.Equals(position));
+        }
+
+        void SwitchColor()
+        {
+            if (CurrentColor == Color.Red)
+            {
+                CurrentColor = Color.Black;
+            }
+            else
+            {
+                CurrentColor = Color.Red;
+            }
         }
     }
 }

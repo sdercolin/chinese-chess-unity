@@ -24,7 +24,7 @@ namespace Core
 
         public Position Position { get; protected set; }
 
-        public abstract List<Position> GetMovablePositions(Game game);
+        internal abstract List<Position> GetMovablePositions(Game game);
 
         protected int UpwardFactor => Color == Color.Red ? 1 : -1;
 
@@ -51,7 +51,7 @@ namespace Core
         {
         }
 
-        public override List<Position> GetMovablePositions(Game game)
+        internal override List<Position> GetMovablePositions(Game game)
         {
             return Position.Palaces[Color]
                 .Where(pos => Position.Distance(pos, Position) == 1)
@@ -68,7 +68,7 @@ namespace Core
         {
         }
 
-        public override List<Position> GetMovablePositions(Game game)
+        internal override List<Position> GetMovablePositions(Game game)
         {
             return Position.Palaces[Color]
                 .Where(pos => Position.Distance(pos, Position) == 2 && pos.X != Position.X && pos.Y != Position.Y)
@@ -85,7 +85,7 @@ namespace Core
         {
         }
 
-        public override List<Position> GetMovablePositions(Game game)
+        internal override List<Position> GetMovablePositions(Game game)
         {
             return Position.Halves[Color]
                 .Where(pos => Position.Distance(pos, Position) == 4 && pos.X != Position.X && pos.Y != Position.Y)
@@ -111,7 +111,7 @@ namespace Core
         {
         }
 
-        public override List<Position> GetMovablePositions(Game game)
+        internal override List<Position> GetMovablePositions(Game game)
         {
             return Position.Whole
                 .Where(pos => pos.X == Position.X || pos.Y == Position.Y)
@@ -129,7 +129,7 @@ namespace Core
         {
         }
 
-        public override List<Position> GetMovablePositions(Game game)
+        internal override List<Position> GetMovablePositions(Game game)
         {
             return Position.Whole
                 .Where(pos => Position.Distance(pos, Position) == 1)
@@ -169,7 +169,7 @@ namespace Core
         {
         }
 
-        public override List<Position> GetMovablePositions(Game game)
+        internal override List<Position> GetMovablePositions(Game game)
         {
             var list = new List<Position>();
             list.AddRange(
@@ -198,7 +198,7 @@ namespace Core
         {
         }
 
-        public override List<Position> GetMovablePositions(Game game)
+        internal override List<Position> GetMovablePositions(Game game)
         {
             var list = new List<Position>();
             list.AddRange(
